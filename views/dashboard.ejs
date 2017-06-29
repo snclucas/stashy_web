@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>Zolware | Dashboard</title>
+	<% include ./partials/headcommon %>
+		<link rel="stylesheet" type="text/css" href="css/dashboard.css">
+		<link rel="stylesheet" type="text/css" href="./css/about.css" />
+		<link rel="stylesheet" type="text/css" href="css/dashboardsearchwidget.css">
+		<link rel="stylesheet" type="text/css" href="css/search.css">
+</head>
+
+<body>
+	<% include ./partials/navbar %>
+
+	<div class="container">
+
+		<div class="row" style="padding-bottom: 30px;">
+			<div class="col-md-6">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<span class="glyphicon glyphicon-list"></span>Projects
+						<div class="pull-right action-buttons">
+							<div class="btn-group pull-right">
+								<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="modal" data-target="#newProjectModal">
+									<span class="glyphicon glyphicon-plus" style="margin-right: 0px;"></span>
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body">
+						<ul id="projectlist" class="list-group">
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+			</div>
+		</div>
+	</div>
+	
+	<% include ./partials/footer %>
+
+	<% include ./partials/addprojectmodal %>
+
+		<% include ./partials/commonjs %>
+			<script src="js/dashboard.js"></script>
+
+</body>
+
+</html>
