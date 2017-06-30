@@ -57,7 +57,6 @@ $(function() {
     
     $(this).find('.btn').toggleClass('btn-default');
     
-    
     $.ajax({
       type: 'POST',
       url: '/setdataprivacy/'+privacy.toLowerCase(),
@@ -67,7 +66,6 @@ $(function() {
         console.log(data);
       }
     });
-       
 });
 
 

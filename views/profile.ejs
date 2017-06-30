@@ -82,8 +82,22 @@
 			</div>
 
 			<br>
+			
+			
+<ul class="nav nav-tabs">
+			<li class="active">
+        <a  href="#1" data-toggle="tab">Settings</a>
+			</li>
+			<li><a href="#2" data-toggle="tab">Tokens</a>
+			</li>
+			<li><a href="#3" data-toggle="tab">Public endpoints</a>
+			</li>
+		</ul>
 
-			<div class="table-responsive">
+			<div class="tab-content ">
+			  <div class="tab-pane active" id="1">
+          <br>
+					<div class="table-responsive">
 				<table class="table table-bordered table-expanded">
 					<tr>
 						<td>
@@ -119,8 +133,11 @@
 					
 				</table>
 			</div>
-
-			<% if(user.tokens) { %>
+					
+				</div>
+				<div class="tab-pane" id="2">
+          
+								<% if(user.tokens) { %>
 				<% if(user.tokens.length > 0) { %>
 					<br>
 					<h4>API tokens (<%= user.tokens.length %>) 
@@ -149,9 +166,11 @@
 								<hr>
 								<% } %>
 									<% } %>
-			
-			
-			<% if(user.publicEndpoints) { %>
+					
+				</div>
+        <div class="tab-pane" id="3">
+         
+					<% if(user.publicEndpoints) { %>
 				<% if(user.publicEndpoints.length > 0) { %>
 					<br>
 					<h4>Public endpoints (<%= user.publicEndpoints.length %>) 
@@ -189,6 +208,21 @@
 								<hr>
 								<% } %>
 									<% } %>
+					
+				</div>
+			</div>
+
+
+<hr></hr>
+			
+			
+
+
+
+
+			
+			
+			
 			
 			<hr>
 			<button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#deleteAccountModal">Delete account</button> 

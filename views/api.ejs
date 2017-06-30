@@ -53,19 +53,6 @@
 		.table-expanded>thead>tr>th {
 			padding: 20px;
 		}
-		
-		.wordwrap {
-			white-space: pre-wrap;
-			/* CSS3 */
-			white-space: -moz-pre-wrap;
-			/* Firefox */
-			white-space: -pre-wrap;
-			/* Opera <7 */
-			white-space: -o-pre-wrap;
-			/* Opera 7 */
-			word-wrap: break-word;
-			/* IE */
-		}
 	</style>
 
 </head>
@@ -79,7 +66,7 @@
 
 			<div class="row PageHead">
 				<div class="col-md-12">
-					<h1>Profile</h1>
+					<h1>API</h1>
 				</div>
 			</div>
 
@@ -123,7 +110,7 @@
 												<tr>
 													<th style="width:18%;">Token</th>
 													<td>
-														Required<br>
+														Required: true<br>
 													</td>
 												</tr>
 												
@@ -167,7 +154,7 @@
 												</tr>
 												<tr>
 													<td><code>st::explode</code></td>
-													<td>Explodes an array of documents at 'explode" node and saves them individually. See <a href="">this example</a>.</td>
+													<td>Explodes an array of documents at 'explode" node and saves them individually.</td>
 												</tr>
 												<tr>
 													<td></td>
@@ -176,6 +163,19 @@
 												<tr>
 													<td></td>
 													<td>Type: <code>string</code></td>
+												</tr>
+												
+												<tr>
+													<td><code>st::expire</code></td>
+													<td>Sets the document expiry datestamp.</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Required: false</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Type: <code>datestamp yymmdd hh:mm:ss</code></td>
 												</tr>
 												
 												<tr>
@@ -196,51 +196,92 @@
 												</tr>
 												<tr>
 													<td id="example1" colspan="2">
-													<pre>
-													{
-													sadasdasd
-													asdasdasd
-													}
-													</pre>
+														<br>
+														POST <code>/d/mysensor</code>
+														<br>
+<pre>
+{
+	"temp": "45"
+	"humidity": "34.34%"
+}
+</pre>
+														<br> Result:
+<pre>
+{
+	"id": 5925bba47157aa4525b18580
+	"temp": "45"
+	"humidity": "34.34%"
+}</pre>
 													</td>
 												</tr>
+												
+												<tr>
+													<td id="example1" colspan="2">
+														POST <code>/d/mysensor?st::explode=docs</code>
+														<br>
+<pre>
+{
+	"docs": [
+		{
+			"temp": "45"
+			"humidity": "34.34%"
+		},
+		{
+			"temp": "46"
+			"humidity": "34.54%"
+		}
+	]
+}
+</pre>
+														<br> Result:
+<pre>
+{
+	"id": 5925bba47157aa4525b12380
+	"temp": "45"
+	"humidity": "34.34%"
+}
+{
+	"id": 5925bba47157aa4525b18590
+	"temp": "46"
+	"humidity": "34.54%"
+}
+</pre>
+													</td>
+												</tr>
+												
 												
 											</tbody>
 											
 										</table>
 										<div class="alert alert-info alert-dismissible border-radius-none">
-											<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-											<p><strong>Hints to provide a better understanding of your API:</strong></p>
-											<ul class="list-unstyled">
-												<li>- Add description to ApiPathParam</li>
-												<li>- Add description to ApiMethod</li>
-											</ul>
+<ul>
+															<li>If you have selected <strong>Add datestamp to documents</strong> in your settings, there will be an additional datestamp field in the saved document.</li>
+															<li>If you provided an expiry parameter, there will be an additional expiry datestamp field in the saved document.</li>
+														</ul>
 										</div>
 									</div>
 								</div>
 							</div>
 
+							
 							<div class="panel panel-default">
 								<div class="panel-heading" id="642da776-5fa5-4874-b024-95efe89da561">
 									<h4 class="panel-title">
-					<span class="label pull-right verb DELETE">DELETE</span>
-					<a id="642da776-5fa5-4874-b024-95efe89da561" href="http://jsondoc-fabiomaffioletti.rhcloud.com/jsondoc-ui.html?url=http://jsondoc-fabiomaffioletti.rhcloud.com/jsondoc#_642da776-5fa5-4874-b024-95efe89da561" rel="method" data-toggle="collapse" data-parent="#accordion" aria-controls="_642da776-5fa5-4874-b024-95efe89da561" aria-expanded="false" class="collapsed">/books/{id}</a><br>	
+					<span class="label pull-right verb GET">GET</span>
+					<a id="642da776-5fa5-4874-b024-95efe89da561" href="#tree" rel="method" data-toggle="collapse" 
+						 data-parent="#accordion" aria-controls="_642da776-5fa5-4874-b024-95efe89da561" aria-expanded="false" class="collapsed">Private endpoint</a><br>	
 			</h4>
 								</div>
-								<div id="_642da776-5fa5-4874-b024-95efe89da561" class="panel-collapse collapse" role="tabpanel" aria-labelledby="642da776-5fa5-4874-b024-95efe89da561" aria-expanded="false">
+								<div id="tree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="642da776-5fa5-4874-b024-95efe89da561" aria-expanded="false">
 									<div class="panel-body">
 										<table class="table table-condensed table-bordered" style="table-layout: fixed;">
 											<tbody>
 												<tr>
 													<th style="width:18%;">Path</th>
 													<td>
-														<code>/books/{id}</code><br>
+														<code>/d/{endpoint}/{id}</code><br>
 													</td>
 												</tr>
-
-
-
-
 
 												<tr>
 													<th colspan="2">Produces</th>
@@ -251,24 +292,78 @@
 													</td>
 												</tr>
 												<tr>
-													<th colspan="2">Consumes</th>
-												</tr>
-												<tr>
-													<td colspan="2">
-														<code>application/json</code>
-													</td>
-												</tr>
-												<tr>
 													<th colspan="2">Path parameters</th>
 												</tr>
 												<tr>
-													<td><code>id</code></td>
+													<td><code>endpoint</code></td>
+													<td>User supplied endpoint</td>
+												</tr>
+												<tr>
+													<td></td>
 													<td>Required: true</td>
 												</tr>
 												<tr>
 													<td></td>
-													<td>Type: <code>long</code></td>
+													<td>Type: <code>String</code></td>
 												</tr>
+												
+												<tr>
+													<td><code>id</code></td>
+													<td>id of a particular document. Note: with this option, any provided filters are ignored.</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Required: false</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Type: <code>String</code></td>
+												</tr>
+												
+												
+												<tr>
+													<th colspan="2">Query parameters</th>
+												</tr>
+												<tr>
+													<td><code>st::sort</code></td>
+													<td>Sorts by supplied field.</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Required: false</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Type: <code>string</code></td>
+												</tr>
+												
+												<tr>
+													<td><code>st::order</code></td>
+													<td>Sort order, can be <code>asc</code> or <code>desc</code>.</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Required: false</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Type: <code>string</code></td>
+												</tr>
+												
+												<tr>
+													<td><code>{field}</code></td>
+													<td>Filters by user supplied field. This field should be present in the documents. If it is not, no documents will be returned.</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Required: false</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Type: <code>string</code></td>
+												</tr>
+												
+												
 												<tr>
 													<th colspan="2">Response status code</th>
 												</tr>
@@ -295,69 +390,7 @@
 								</div>
 							</div>
 
-							<div class="panel panel-default">
-								<div class="panel-heading" id="7ec250e7-419a-40c9-b0f1-840cb03190eb">
-									<h4 class="panel-title">
-					<span class="label pull-right verb POST">POST</span>
-					<a id="7ec250e7-419a-40c9-b0f1-840cb03190eb" href="http://jsondoc-fabiomaffioletti.rhcloud.com/jsondoc-ui.html?url=http://jsondoc-fabiomaffioletti.rhcloud.com/jsondoc#_7ec250e7-419a-40c9-b0f1-840cb03190eb" rel="method" data-toggle="collapse" data-parent="#accordion" aria-controls="_7ec250e7-419a-40c9-b0f1-840cb03190eb" aria-expanded="false" class="collapsed">/books</a><br>	
-			</h4>
-								</div>
-								<div id="_7ec250e7-419a-40c9-b0f1-840cb03190eb" class="panel-collapse collapse" role="tabpanel" aria-labelledby="7ec250e7-419a-40c9-b0f1-840cb03190eb" aria-expanded="false">
-									<div class="panel-body">
-										<table class="table table-condensed table-bordered" style="table-layout: fixed;">
-											<tbody>
-												<tr>
-													<th style="width:18%;">Path</th>
-													<td>
-														<code>/books</code><br>
-													</td>
-												</tr>
-												<tr>
-													<th colspan="2">Produces</th>
-												</tr>
-												<tr>
-													<td colspan="2">
-														<code>application/json</code>
-													</td>
-												</tr>
-												<tr>
-													<th colspan="2">Consumes</th>
-												</tr>
-												<tr>
-													<td colspan="2">
-														<code>application/json</code>
-													</td>
-												</tr>
-												<tr>
-													<th colspan="2">Body object</th>
-												</tr>
-												<tr>
-													<td colspan="2"><code>Book</code></td>
-												</tr>
-												<tr>
-													<th colspan="2">Response status code</th>
-												</tr>
-												<tr>
-													<td colspan="2"><code>201 - Created</code></td>
-												</tr>
-												<tr>
-													<th colspan="2">Response object</th>
-												</tr>
-												<tr>
-													<td colspan="2"><code>void</code></td>
-												</tr>
-											</tbody>
-										</table>
-										<div class="alert alert-info alert-dismissible border-radius-none">
-											<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-											<p><strong>Hints to provide a better understanding of your API:</strong></p>
-											<ul class="list-unstyled">
-												<li>- Add description to ApiMethod</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</div>
+							
 						</div>
 
 

@@ -19,7 +19,10 @@ module.exports = function(app) {
         });
   });
 
-
+  app.get('/plans', function(req, res) {
+    res.render('plans.ejs', {user : req.user});
+  });
+  
   app.get('/usage', function(req, res) {
     res.render('usage.ejs', {user : req.user});
   });

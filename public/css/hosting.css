@@ -42,7 +42,7 @@ body {
 	position:relative;
 }
 a {
-	color:#2cc76a;
+	color:#2b4bc7;
 }
 a:hover, a:focus {
 	color:#1eb45a;
@@ -220,7 +220,7 @@ p {
 /*==========3. MORE FEATURES==============*/
 
 .PageHead {
-	margin-top:50px;
+	margin-top:20px;
 }
 .PageHead h1, .PageHead h3 {
 	text-align:center;
@@ -354,6 +354,27 @@ p {
 	line-height: 2.2;
 }
 .PlanPricing.Recommended .price {
+	background:#f45c57;
+}
+.PlanPricing .pricesoon {
+	background:#2cc76a;
+	padding:5px;
+	color:#FFF;
+	font-size:38px;
+	-webkit-border-radius:100%;
+	-moz-border-radius:100%;
+	border-radius:100%;
+	display:block;
+	width:100px;
+	height:100px;
+	line-height:100px;
+	margin:0 auto;
+	position:relative;
+	margin-top:-107px;
+	margin-bottom:10px;
+	line-height: 2.2;
+}
+.PlanPricing.Recommended .pricesoon {
 	background:#f45c57;
 }
 .PlanPricing .planName h3 {

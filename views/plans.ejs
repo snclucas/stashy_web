@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Stashy.IO - Fast, custom RESTful endpoints for all your data</title>
+
+<%- include ./partials/meta_data %>
+  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Bootstrap -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+
+<!--==============GOOGLE FONT - OPEN SANS=================-->
+<link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+<!--============== ICON FONT FONT-AWESOME=================-->
+
+<link href="css/font-awesome.css" rel="stylesheet">
+
+<!--==============MAIN CSS FOR HOSTING PAGE=================-->
+
+<link href="css/hosting.css" rel="stylesheet">
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<!--==============Mordernizr =================-->
+
+<script src="js/modernizr.js"></script>
+
+<!--===================Jquery=======================-->
+
+<script src="js/jquery.min.js"></script>
+
+
+</head>
+<body>
+<%- include ./partials/navbar %>
+
+<!--==============Content Area=================-->
+
+<div class="container"> 
+  
+  <!--============== Pricing ==============-->
+  
+  <div class="row PageHead" id="pricing">
+    <div class="col-md-12">
+      <h1>Plans & Pricing</h1>
+      <h3>Tailored plans and pricing suits your needs</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-md-4 PlanPricing">
+      <div class="planName"> <span class="price">Free</span>
+        <h3>Sandbox</h3>
+        <p>Forever Plan</p>
+      </div>
+      <div class="planFeatures">
+        <ul>
+          <li>1 token</li>
+          <li>1 public endpoint</li>
+          <li>60 Posts/min</li>
+          <li>100,000 documents</li>
+        </ul>
+      </div>
+      <p> <a href="#" role="button" class="btn btn-success btn-lg">Sign Up </a> </p>
+    </div>
+    <div class="col-sm-6 col-md-4 PlanPricing">
+      <div class="planName"> <span class="price">$5</span>
+        <h3>Standard</h3>
+        <p>Monthly Plan</p>
+      </div>
+      <div class="planFeatures">
+        <ul>
+          <li>5 tokens</li>
+          <li>5 public endpoint</li>
+          <li>1 vanity endpoint</li>
+          <li>600 Posts/min</li>
+          <li>1,000,000 documents</li>
+        </ul>
+      </div>
+      <p> <a href="#" role="button" class="btn btn-success btn-lg">Coming soon</a> </p>
+    </div>
+    <div class="col-sm-6 col-md-4 PlanPricing">
+      <div class="planName"> <span class="price">$20</span>
+        <h3>Unlimited</h3>
+        <p>Monthly Plan</p>
+      </div>
+      <div class="planFeatures">
+        <ul>
+          <li>Unlimited tokens</li>
+          <li>Unlimited public endpoint</li>
+          <li>10 vanity endpoints</li>
+          <li>6000 Posts/min</li>
+          <li>Unlimited documents</li>
+        </ul>
+      </div>
+      <p> <a href="#" role="button" class="btn btn-success btn-lg">Coming soon</a> </p>
+    </div>
+  </div>
+</div>
+<!--Container Closed--> 
+
+
+<!--Container Closed--> 
+
+<%- include ./partials/footer %>
+
+<!--==============MODAL LOGIN=================--> 
+
+<!-- Modal -->
+<div class="modal fade LoginSignup" id="Login" tabindex="-1" role="dialog" aria-labelledby="LoginLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title">Login</h3>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="https://www.yourwebsite.com/client/dologin.php">
+          <div class="form-group">
+            <input class="form-control input-lg" type="text" name="username" size="50" placeholder="Email ID"/>
+          </div>
+          <div class="form-group">
+            <input class="form-control input-lg" type="password" name="password" size="20" placeholder="Password"/>
+          </div>
+          <div class="form-group">
+            <input type="submit" value="Login to my Account" class="btn btn-success btn-lg"/>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- /.modal-content --> 
+  </div>
+  <!-- /.modal-dialog --> 
+</div>
+<!-- /.modal --> 
+
+<!--==============BOOTSTRAP JS=================--> 
+
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>
