@@ -19,6 +19,14 @@ module.exports = function(app) {
         });
   });
 
+  app.get('/terms', function(req, res) {
+    res.render('terms.ejs', {user : req.user});
+  });
+  
+  app.get('/privacy', function(req, res) {
+    res.render('privacy.ejs', {user : req.user});
+  });
+  
   app.get('/plans', function(req, res) {
     res.render('plans.ejs', {user : req.user});
   });
