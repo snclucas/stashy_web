@@ -3,22 +3,22 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>stashy.io | Usage</title>
+	<title>stashy.io | Usage / API</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Bootstrap -->
-	<link href="static/css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<!--==============GOOGLE FONT - OPEN SANS=================-->
 	<link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 
 	<!--============== ICON FONT FONT-AWESOME=================-->
 
-	<link href="static/css/font-awesome.css" rel="stylesheet">
+	<link href="css/font-awesome.css" rel="stylesheet">
 
-	<link href="static/css/api_json.css" rel="stylesheet">
+	<link href="css/api_json.css" rel="stylesheet">
 
 	<!--==============MAIN CSS FOR HOSTING PAGE=================-->
 
-	<link href="static/css/hosting.css" rel="stylesheet" media="all">
+	<link href="css/hosting.css" rel="stylesheet" media="all">
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
@@ -105,6 +105,344 @@
 
 
 			</div>
+			
+			
+			
+			<div class="row">
+
+				<div class="col-md-3">
+
+				</div>
+
+				<div class="col-md-6">
+					<div id="content">
+						
+						<p>
+							Below lists the basic API to use Stashy.
+						</p>
+						<br>
+
+						<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+							<div class="panel panel-default">
+								<div class="panel-heading" id="9315c16d-60bc-4dbf-b8d4-7b33644c46b7">
+									<h4 class="panel-title">
+					<span class="label pull-right verb POST">POST</span>
+					<a id="9315c16d-60bc-4dbf-b8d4-7b33644c46b7" href="#egg" rel="method" 
+						 data-toggle="collapse" data-parent="#accordion" aria-controls="_egg" aria-expanded="false" class="collapsed">Private endpoint</a><br>	
+			</h4>
+								</div>
+								<div id="egg" class="panel-collapse collapse" role="tabpanel" aria-labelledby="9315c16d-60bc-4dbf-b8d4-7b33644c46b7" aria-expanded="false" style="height: 0px;">
+									<div class="panel-body">
+										<table class="table table-condensed table-bordered" style="table-layout: fixed;">
+											<tbody>
+												<tr>
+													<th style="width:18%;">Path</th>
+													<td>
+														<code>/d/{endpoint}</code><br>
+													</td>
+												</tr>
+								
+												<tr>
+													<th style="width:18%;">Token</th>
+													<td>
+														Required: true<br>
+													</td>
+												</tr>
+												
+												<tr>
+													<th colspan="2">Produces</th>
+												</tr>
+												<tr>
+													<td colspan="2">
+														<code>application/json</code>
+													</td>
+												</tr>
+												<tr>
+													<th colspan="2">Consumes</th>
+												</tr>
+												<tr>
+													<td colspan="2">
+														<code>application/json</code>
+													</td>
+												</tr>
+												
+												
+												<tr>
+													<th colspan="2">Path parameters</th>
+												</tr>
+												<tr>
+													<td><code>endpoint</code></td>
+													<td>User supplied endpoint</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Required: true</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Type: <code>String</code></td>
+												</tr>
+												
+												
+												<tr>
+													<th colspan="2">Query parameters</th>
+												</tr>
+												<tr>
+													<td><code>st::explode</code></td>
+													<td>Explodes an array of documents at 'explode" node and saves them individually.</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Required: false</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Type: <code>string</code></td>
+												</tr>
+												
+												<tr>
+													<td><code>st::expire</code></td>
+													<td>Sets the document expiry datestamp.</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Required: false</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Type: <code>datestamp yymmdd hh:mm:ss</code></td>
+												</tr>
+												
+												<tr>
+													<th colspan="2">Response status code</th>
+												</tr>
+												<tr>
+													<td colspan="2"><code>200 - OK</code></td>
+												</tr>
+												<tr>
+													<th colspan="2">Response object</th>
+												</tr>
+												<tr>
+													<td colspan="2"><code>Book</code></td>
+												</tr>
+												
+												<tr>
+													<th colspan="2">Example</th>
+												</tr>
+												<tr>
+													<td id="example1" colspan="2">
+														<br>
+														POST <code>/d/mysensor</code>
+														<br>
+<pre>
+{
+	"temp": "45"
+	"humidity": "34.34%"
+}
+</pre>
+														<br> Result:
+<pre>
+{
+	"id": 5925bba47157aa4525b18580
+	"temp": "45"
+	"humidity": "34.34%"
+}</pre>
+													</td>
+												</tr>
+												
+												<tr>
+													<td id="example1" colspan="2">
+														POST <code>/d/mysensor?st::explode=docs</code>
+														<br>
+<pre>
+{
+	"docs": [
+		{
+			"temp": "45"
+			"humidity": "34.34%"
+		},
+		{
+			"temp": "46"
+			"humidity": "34.54%"
+		}
+	]
+}
+</pre>
+														<br> Result:
+<pre>
+{
+	"id": 5925bba47157aa4525b12380
+	"temp": "45"
+	"humidity": "34.34%"
+}
+{
+	"id": 5925bba47157aa4525b18590
+	"temp": "46"
+	"humidity": "34.54%"
+}
+</pre>
+													</td>
+												</tr>
+												
+												
+											</tbody>
+											
+										</table>
+										<div class="alert alert-info alert-dismissible border-radius-none">
+<ul>
+															<li>If you have selected <strong>Add datestamp to documents</strong> in your settings, there will be an additional datestamp field in the saved document.</li>
+															<li>If you provided an expiry parameter, there will be an additional expiry datestamp field in the saved document.</li>
+														</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							
+							<div class="panel panel-default">
+								<div class="panel-heading" id="642da776-5fa5-4874-b024-95efe89da561">
+									<h4 class="panel-title">
+					<span class="label pull-right verb GET">GET</span>
+					<a id="642da776-5fa5-4874-b024-95efe89da561" href="#tree" rel="method" data-toggle="collapse" 
+						 data-parent="#accordion" aria-controls="_642da776-5fa5-4874-b024-95efe89da561" aria-expanded="false" class="collapsed">Private endpoint</a><br>	
+			</h4>
+								</div>
+								<div id="tree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="642da776-5fa5-4874-b024-95efe89da561" aria-expanded="false">
+									<div class="panel-body">
+										<table class="table table-condensed table-bordered" style="table-layout: fixed;">
+											<tbody>
+												<tr>
+													<th style="width:18%;">Path</th>
+													<td>
+														<code>/d/{endpoint}/{id}</code><br>
+													</td>
+												</tr>
+
+												<tr>
+													<th colspan="2">Produces</th>
+												</tr>
+												<tr>
+													<td colspan="2">
+														<code>application/json</code>
+													</td>
+												</tr>
+												<tr>
+													<th colspan="2">Path parameters</th>
+												</tr>
+												<tr>
+													<td><code>endpoint</code></td>
+													<td>User supplied endpoint</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Required: true</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Type: <code>String</code></td>
+												</tr>
+												
+												<tr>
+													<td><code>id</code></td>
+													<td>id of a particular document. Note: with this option, any provided filters are ignored.</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Required: false</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Type: <code>String</code></td>
+												</tr>
+												
+												
+												<tr>
+													<th colspan="2">Query parameters</th>
+												</tr>
+												<tr>
+													<td><code>st::sort</code></td>
+													<td>Sorts by supplied field.</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Required: false</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Type: <code>string</code></td>
+												</tr>
+												
+												<tr>
+													<td><code>st::order</code></td>
+													<td>Sort order, can be <code>asc</code> or <code>desc</code>.</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Required: false</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Type: <code>string</code></td>
+												</tr>
+												
+												<tr>
+													<td><code>{field}</code></td>
+													<td>Filters by user supplied field. This field should be present in the documents. If it is not, no documents will be returned.</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Required: false</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td>Type: <code>string</code></td>
+												</tr>
+												
+												
+												<tr>
+													<th colspan="2">Response status code</th>
+												</tr>
+												<tr>
+													<td colspan="2"><code>200 - OK</code></td>
+												</tr>
+												<tr>
+													<th colspan="2">Response object</th>
+												</tr>
+												<tr>
+													<td colspan="2"><code>void</code></td>
+												</tr>
+											</tbody>
+										</table>
+										<div class="alert alert-info alert-dismissible border-radius-none">
+											<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+											<p><strong>Hints to provide a better understanding of your API:</strong></p>
+											<ul class="list-unstyled">
+												<li>- Add description to ApiPathParam</li>
+												<li>- Add description to ApiMethod</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							
+						</div>
+
+
+					</div>
+				</div>
+
+
+				<div class="col-md-3">
+
+				</div>
+
+
+			</div>
+			
+			
+			
 		</div>
 <%- include ./partials/footer %>
 
@@ -115,7 +453,7 @@
 		<!--==============BOOTSTRAP JS=================-->
 		<script src="js/bootstrap.min.js"></script>
 
-		<script src="static/js/profile.js"></script>
+		<script src="js/profile.js"></script>
 
 </body>
 

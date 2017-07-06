@@ -7,6 +7,7 @@ exports.getIndex = function(req, res) {
   }
   res.render('index.ejs', {
     is_logged_in: req.isAuthenticated(),
-    user: authenticatedUser
+    user: authenticatedUser,
+    message: ""
   });
 };

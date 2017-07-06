@@ -10,12 +10,25 @@ var User = require('../models/user');
 
 module.exports = function(app, passport) {
 
-  // normal routes ===============================================================
+  function getMailTransport() {
+    return nodemailer.createTransport({
+          service: 'Gmail',
+          auth: {
+            user: process.env.GMAIL_ADDR,
+            pass: process.env.GMAIL_PASSWORD
+          },
+          debug: true // include SMTP traffic in the logs
+        });
+  }
 
-
-
-
-
+function getMailOptions(to, from, subject, text) {
+  return  {
+          to: to,
+          from: from,
+          subject: subject,
+          text: text
+        };
+}
 
 
   // LOGOUT ==============================
@@ -262,40 +275,20 @@ module.exports = function(app, passport) {
         });
       },
       function(token, user, done) {
-
-
-        // Create a SMTP transporter object
-        let smtpTransport = nodemailer.createTransport({
-          service: 'Gmail',
-          auth: {
-            user: process.env.GMAIL_ADDR,
-            pass: process.env.GMAIL_PASSWORD
-          },
-          debug: true // include SMTP traffic in the logs
-        }, {
-          // default message fields
-
-          // sender info
-          from: 'Pangalink <no-reply@pangalink.net>',
-          headers: {
-            'X-Laziness-level': 1000 // just an example header, no need to use this
-          }
-        });
-
-
-        var mailOptions = {
-          to: user.local.email,
-          from: 'passwordreset@htpl.us',
-          subject: 'Password Reset',
-          text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-            'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-            'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-            'If you did not request this, please ignore this email and your password will remain unchanged.\n'
-        };
-        smtpTransport.sendMail(mailOptions, function(err) {
-          req.flash('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
-          done(err, 'done');
-        });
+        
+         var text = 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+             'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+             'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+             'If you did not request this, please ignore this email and your password will remain unchanged.\n';
+        
+        var mailOptions = getMailOptions(user.local.email, 'passwordreset@stashy.io', 'Password Reset', text);
+        
+         getMailTransport().sendMail(mailOptions, function(err) {
+           res.render('index', {
+              user: req.user,
+              message: 'An e-mail has been sent to ' + user.local.email + ' with further instructions.'
+           });
+         });
       }
     ], function(err) {
       if (err) return next(err);
@@ -360,37 +353,15 @@ module.exports = function(app, passport) {
         });
       },
       function(user, done) {
+        var text = 'Hello,\n\nThis is a confirmation that the password for your account ' + user.local.email + ' has just been changed.\n';
+        var mailOptions = getMailOptions(user.local.email, 'passwordreset@stashy.io', 'Your password has been changed', text);
         
-         // Create a SMTP transporter object
-        let smtpTransport = nodemailer.createTransport({
-          service: 'Gmail',
-          auth: {
-            user: process.env.GMAIL_ADDR,
-            pass: process.env.GMAIL_PASSWORD
-          },
-          debug: true // include SMTP traffic in the logs
-        }, {
-          // default message fields
-
-          // sender info
-          from: 'Pangalink <no-reply@pangalink.net>',
-          headers: {
-            'X-Laziness-level': 1000 // just an example header, no need to use this
-          }
-        });
-
-        
-        var mailOptions = {
-          to: user.local.email,
-          from: 'passwordreset@htpl.us',
-          subject: 'Your password has been changed',
-          text: 'Hello,\n\n' +
-            'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
-        };
-        smtpTransport.sendMail(mailOptions, function(err) {
-          req.flash('success', 'Success! Your password has been changed.');
-          done(err);
-        });
+         getMailTransport().sendMail(mailOptions, function(err) {
+           res.render('index', {
+              user: req.user,
+              message: 'Success! Your password has been changed.'
+           });
+         });
       }
     ], function(err) {
       res.redirect('/');
@@ -399,6 +370,9 @@ module.exports = function(app, passport) {
 
 
 };
+
+
+
 
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {

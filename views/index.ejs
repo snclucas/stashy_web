@@ -9,17 +9,17 @@
 	
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Bootstrap -->
-<link href="static/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap.min.css" rel="stylesheet">
 <!--==============GOOGLE FONT - OPEN SANS=================-->
-<link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 
 <!--============== ICON FONT FONT-AWESOME=================-->
 
-<link href="static/css/font-awesome.css" rel="stylesheet">
+<link href="/static/css/font-awesome.css" rel="stylesheet">
 
 <!--==============MAIN CSS FOR HOSTING PAGE=================-->
 
-<link href="static/css/hosting.css" rel="stylesheet" media="all">
+<link href="css/hosting.css" rel="stylesheet" media="all">
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
@@ -29,13 +29,13 @@
 
 <!--==============Mordernizr =================-->
 
-<script src="static/js/modernizr.js"></script>
+<script src="js/modernizr.js"></script>
 
 <!--===================FLEX SLIDER STARTS=======================-->
 
-<link rel="stylesheet" href="static/css/flexslider.css" />
-<script src="static/js/jquery.min.js"></script>
-<script src="static/js/jquery.flexslider.js"></script>
+<link rel="stylesheet" href="css/flexslider.css" />
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.flexslider.js"></script>
 <script type="text/javascript">
   $(window).load(function() {
      $('.flexslider').flexslider({
@@ -51,6 +51,14 @@
 <body>
 
 <%- include ./partials/navbar %>
+	
+	<% if (message) { %>
+	  <% if (message.length > 0) { %>
+      <div class="alert alert-danger">
+        <%= message %>
+      </div>
+    <% } %>
+	<% } %>
 
 <!--==============HEADER =================-->
 <div class="jumbotron masthead">
@@ -114,7 +122,7 @@
 	
 
 <!--==============BOOTSTRAP JS=================--> 
-<script src="static/js/bootstrap.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 
 </body>
 </html>

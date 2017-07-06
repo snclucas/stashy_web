@@ -58,8 +58,9 @@ app.set('view engine', 'ejs'); // set up ejs for templating
 
 //app.use(express.static('public'));
 //app.use(express.static(__dirname + '/public'));
-app.use('/static', express.static(path.join(__dirname, 'public')))
+//app.use('/static', express.static(path.join(__dirname, 'public')))
 //app.use("/public", express.static(__dirname + '/public'));
+app.use('/static', express.static(path.join(__dirname, 'public')))
 
 // required for passport
 //app.use(session({ secret: process.env.SESSION_SECRET })); // session secret

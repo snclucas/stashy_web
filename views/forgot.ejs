@@ -1,83 +1,64 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 
 <head>
-  <title>hashtag+ | signup</title>
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="../css/base.css" />
+  <meta charset="utf-8">
+  <title>Stashy.io - Fast, custom RESTful endpoints for all your data</title>
 
-  <style>
-    form[role=forgot] {
-      color: #5d5d5d;
-      background: #f2f2f2;
-      padding: 26px;
-      border-radius: 10px;
-      -moz-border-radius: 10px;
-      -webkit-border-radius: 10px;
-    }
-    
-    form[role=forgot] img {
-      display: block;
-      margin: 0 auto;
-      margin-bottom: 35px;
-    }
-    
-    form[role=forgot] input,
-    form[role=forgot] button {
-      font-size: 18px;
-      margin: 16px 0;
-    }
-    
-    form[role=forgot] > div {
-      text-align: center;
-    }
-    
-    .form-links {
-      text-align: center;
-      margin-top: 1em;
-      margin-bottom: 50px;
-    }
-    
-    .form-links a {
-      color: #fff;
-    }
-  </style>
+  <%- include ./partials/meta_data %>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--==============GOOGLE FONT - OPEN SANS=================-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+
+    <!--==============MAIN CSS FOR HOSTING PAGE=================-->
+
+    <link href="css/hosting.css" rel="stylesheet" media="all">
+  
+  <link href="css/login_signup.css" rel="stylesheet" media="all">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+    <script src="js/jquery.min.js"></script>
+
+    <!--===================FLEX SLIDER ENDS=======================-->
+
 </head>
 
 <body>
-  <div class="container">
 
-    <div class="row">
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
-        <section class="login-form">
-          <form method="post" action="forgot" role="forgot">
-            <img src="./img/logo.png" class="img-responsive" alt="" width="300px" />
+  <%- include ./partials/navbar %>
 
-            <% if (message.length > 0) { %>
-              <div class="alert alert-danger">
-                <%= message %>
-              </div>
-              <% } %>
+
+    <!--==============Content Area=================-->
+    <div class="container">
+        <div class="card card-container">
+            <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+            <img id="profile-img" class="profile-img-card" src="img/logo-trans.png" />
+            <p id="profile-name" class="profile-name-card"></p>
+            <form action="/forgot" method="POST">
+                <span id="reauth-email" class="reauth-email"></span>
                 <input type="text" name="name" placeholder="Name" required class="form-control input-lg" />
                 <input type="email" name="email" placeholder="Email" required class="form-control input-lg" />
-                <div class="pwstrength_viewport_progress"></div>
-                <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Send reset</button>
-            
-            <div>
-                  <a href="/">Home</a>
-                </div>
-            
-          </form>
-        </section>
-      </div>
+                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Send</button>
+            </form><!-- /form -->
+        </div><!-- /card-container -->
+    </div><!-- /container -->
 
-      <div class="col-md-4"></div>
+    <%- include ./partials/footer %>
 
 
-    </div>
-  </div>
+      <!--==============BOOTSTRAP JS=================-->
+      <script src="js/bootstrap.min.js"></script>
+
 </body>
 
 </html>
