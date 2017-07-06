@@ -2,6 +2,11 @@ var authenticationService = require('../services/AuthenticationService');
 
 var config = require('../../config/app'); // use this one for testing
 
+var async = require('async');
+var crypto = require('crypto');
+var nodemailer = require('nodemailer');
+
+var User = require('../models/user');
 
 module.exports = function(app, passport) {
 
@@ -225,6 +230,9 @@ module.exports = function(app, passport) {
   });
 
 
+
+
+
   app.post('/forgot', function(req, res, next) {
     async.waterfall([
       function(done) {
@@ -254,13 +262,27 @@ module.exports = function(app, passport) {
         });
       },
       function(token, user, done) {
-        var smtpTransport = nodemailer.createTransport(smtpTrans({
+
+
+        // Create a SMTP transporter object
+        let smtpTransport = nodemailer.createTransport({
           service: 'Gmail',
           auth: {
             user: process.env.GMAIL_ADDR,
             pass: process.env.GMAIL_PASSWORD
+          },
+          debug: true // include SMTP traffic in the logs
+        }, {
+          // default message fields
+
+          // sender info
+          from: 'Pangalink <no-reply@pangalink.net>',
+          headers: {
+            'X-Laziness-level': 1000 // just an example header, no need to use this
           }
-        }));
+        });
+
+
         var mailOptions = {
           to: user.local.email,
           from: 'passwordreset@htpl.us',
@@ -338,13 +360,26 @@ module.exports = function(app, passport) {
         });
       },
       function(user, done) {
-        var smtpTransport = nodemailer.createTransport(smtpTrans({
+        
+         // Create a SMTP transporter object
+        let smtpTransport = nodemailer.createTransport({
           service: 'Gmail',
           auth: {
             user: process.env.GMAIL_ADDR,
             pass: process.env.GMAIL_PASSWORD
+          },
+          debug: true // include SMTP traffic in the logs
+        }, {
+          // default message fields
+
+          // sender info
+          from: 'Pangalink <no-reply@pangalink.net>',
+          headers: {
+            'X-Laziness-level': 1000 // just an example header, no need to use this
           }
-        }));
+        });
+
+        
         var mailOptions = {
           to: user.local.email,
           from: 'passwordreset@htpl.us',

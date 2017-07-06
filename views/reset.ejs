@@ -10,16 +10,16 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
     <!--==============GOOGLE FONT - OPEN SANS=================-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 
 
     <!--==============MAIN CSS FOR HOSTING PAGE=================-->
 
-    <link href="static/css/hosting.css" rel="stylesheet" media="all">
+    <link href="../static/css/hosting.css" rel="stylesheet" media="all">
   
-  <link href="static/css/login_signup.css" rel="stylesheet" media="all">
+  <link href="../static/css/login_signup.css" rel="stylesheet" media="all">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -27,7 +27,7 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-    <script src="static/js/jquery.min.js"></script>
+    <script src="../static/js/jquery.min.js"></script>
 
     <!--===================FLEX SLIDER ENDS=======================-->
 
@@ -44,10 +44,10 @@
             <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
             <img id="profile-img" class="profile-img-card" src="static/img/logo-trans.png" />
             <p id="profile-name" class="profile-name-card"></p>
-            <form action="/login" method="POST">
+            <form method="POST">
                 <span id="reauth-email" class="reauth-email"></span>
-                <input type="text" id="email" name="email" class="form-control" placeholder="Email address or username" required autofocus>
-                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                <input type="password" id="password" name="password" class="form-control" placeholder="New password 1" required autofocus>
+                <input type="password" id="confirm" name="confirm" class="form-control" placeholder="New password 2" required>
                 <div id="remember" class="checkbox">
                     <label>
                         <input type="checkbox" value="remember-me"> Remember me
@@ -65,7 +65,7 @@
 
 
       <!--==============BOOTSTRAP JS=================-->
-      <script src="static/js/bootstrap.min.js"></script>
+      <script src="../static/js/bootstrap.min.js"></script>
 
 </body>
 
