@@ -1,128 +1,139 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<title>Stashy.IO - Fast, custom RESTful endpoints for all your data</title>
+	<meta charset="utf-8">
+	<title>Stashy.IO - Fast, custom RESTful endpoints for all your data</title>
 
-<%- include ./partials/meta_data %>
-	
-	
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Bootstrap -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<!--==============GOOGLE FONT - OPEN SANS=================-->
-<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+	<%- include ./partials/meta_data %>
 
-<!--============== ICON FONT FONT-AWESOME=================-->
 
-<link href="/static/css/font-awesome.css" rel="stylesheet">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- Bootstrap -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<!--==============GOOGLE FONT - OPEN SANS=================-->
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 
-<!--==============MAIN CSS FOR HOSTING PAGE=================-->
+		<!--============== ICON FONT FONT-AWESOME=================-->
 
-<link href="css/hosting.css" rel="stylesheet" media="all">
+		<link href="/static/css/font-awesome.css" rel="stylesheet">
 
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
+		<!--==============MAIN CSS FOR HOSTING PAGE=================-->
+
+		<link href="css/hosting.css" rel="stylesheet" media="all">
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!--==============Mordernizr =================-->
+		<!--==============Mordernizr =================-->
 
-<script src="js/modernizr.js"></script>
+		<script src="js/modernizr.js"></script>
 
-<!--===================FLEX SLIDER STARTS=======================-->
+		<!--===================FLEX SLIDER STARTS=======================-->
 
-<link rel="stylesheet" href="css/flexslider.css" />
-<script src="js/jquery.min.js"></script>
-<script src="js/jquery.flexslider.js"></script>
-<script type="text/javascript">
-  $(window).load(function() {
-     $('.flexslider').flexslider({
-        animation: "slide",
-		useCSS: Modernizr.touch
-      });
-  });
-</script>
+		<link rel="stylesheet" href="css/flexslider.css" />
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.flexslider.js"></script>
+		<script type="text/javascript">
+			$(window).load(function() {
+				$('.flexslider').flexslider({
+					animation: "slide",
+					useCSS: Modernizr.touch
+				});
+			});
+		</script>
 
-<!--===================FLEX SLIDER ENDS=======================-->
+		<!--===================FLEX SLIDER ENDS=======================-->
 
 </head>
+
 <body>
 
-<%- include ./partials/navbar %>
-	
-	<% if (message) { %>
-	  <% if (message.length > 0) { %>
-      <div class="alert alert-danger">
-        <%= message %>
-      </div>
-    <% } %>
-	<% } %>
+	<%- include ./partials/navbar %>
 
-<!--==============HEADER =================-->
-<div class="jumbotron masthead">
-  <div class="container"> 
-    
-    <!--==============Hero Unit=================-->
-    
-    <div class="flexslider">
-      <ul class="slides">
-        <li>
-          <div class="hero-unit">
-            <h1>Create custom, quick &amp; easy RESTful data endpoints</h1>
-            <h3>Create public and private endpoints for your data</h3>
-            <div class="slider-actions text-center"> 
-							<a href="/usage" class="btn btn-success btn-lg">Usage </a> 
-							<a href="/plans" class="btn btn-primary btn-lg">Plans </a> 
+		<% if (message) { %>
+			<% if (message.length > 0) { %>
+				<div class="alert alert-danger">
+					<%= message %>
+				</div>
+			<% } %>
+		<% } %>
+
+						<!--==============HEADER =================-->
+						<div class="jumbotron masthead">
+							<div class="container">
+
+								<div class="row">
+									<div class="col-sm-4 offset-md-4">
+										<% if ( sessionFlash && sessionFlash.message) { %>
+											<div class="<%= sessionFlash.type %>">
+												<strong><%= sessionFlash.message %></strong>
+											</div>
+											<% } %>
+									</div>
+								</div>
+								<!--==============Hero Unit=================-->
+								<div class="flexslider">
+									<ul class="slides">
+										<li>
+											<div class="hero-unit">
+												<h1>Create custom, quick &amp; easy RESTful data endpoints</h1>
+												<h3>Create public and private endpoints for your data</h3>
+												<div class="slider-actions text-center">
+													<a href="/usage" class="btn btn-success btn-lg">Usage </a>
+													<a href="/plans" class="btn btn-primary btn-lg">Plans </a>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
 						</div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
 
-<!--==============Content Area=================-->
+						<!--==============Content Area=================-->
 
-<div class="container"> 
-  <!--============== Main Features ==============-->
-  
-  <div class="row mainFeatures" id="features">
-    <div class="col-sm-6 col-md-4">
-      <div class="img-thumbnail"> <i class="fa fa-5x fa-gears"></i> 
-        <div class="caption">
-          <h4>Testing</h4>
-          <p>Quick and simple way to provide data endpoints for your projects.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-md-4">
-      <div class="img-thumbnail">  <i class="fa fa-5x fa-tachometer"></i> 
-        <div class="caption">
-          <h4>Internet of things (IoT)</h4>
-          <p>Point your sensors and gadgets to stashy to store data.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-0">
-      <div class="img-thumbnail">  <i class="fa fa-5x fa-gears"></i> 
-        <div class="caption">
-          <h4>Customer Support</h4>
-          <p>We have a dedicated team of support for sales and support to help you in anytime. You can also chat with us.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-</div>
-<!--Container Closed--> 
+						<div class="container">
+							<!--============== Main Features ==============-->
 
-<%- include ./partials/footer %>
-	
+							<div class="row mainFeatures" id="features">
+								<div class="col-sm-6 col-md-4">
+									<div class="img-thumbnail"> <i class="fa fa-5x fa-gears"></i>
+										<div class="caption">
+											<h4>Testing</h4>
+											<p>Quick and simple way to provide data endpoints for your projects.</p>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-4">
+									<div class="img-thumbnail"> <i class="fa fa-5x fa-tachometer"></i>
+										<div class="caption">
+											<h4>Internet of things (IoT)</h4>
+											<p>Point your sensors and gadgets to stashy to store data.</p>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-0">
+									<div class="img-thumbnail"> <i class="fa fa-5x fa-gears"></i>
+										<div class="caption">
+											<h4>Customer Support</h4>
+											<p>We have a dedicated team of support for sales and support to help you in anytime. You can also chat with us.</p>
+										</div>
+									</div>
+								</div>
+							</div>
 
-<!--==============BOOTSTRAP JS=================--> 
-<script src="js/bootstrap.min.js"></script>
+						</div>
+						<!--Container Closed-->
+
+						<%- include ./partials/footer %>
+
+
+							<!--==============BOOTSTRAP JS=================-->
+							<script src="js/bootstrap.min.js"></script>
 
 </body>
+
 </html>

@@ -6,30 +6,23 @@ var async = require('async');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 
+var mailgun = require('mailgun-js')({
+  apiKey: process.env.mailgun_api_key,
+  domain: process.env.mailgun_domain
+});
+
 var User = require('../models/user');
 
 module.exports = function(app, passport) {
 
-  function getMailTransport() {
-    return nodemailer.createTransport({
-          service: 'Gmail',
-          auth: {
-            user: process.env.GMAIL_ADDR,
-            pass: process.env.GMAIL_PASSWORD
-          },
-          debug: true // include SMTP traffic in the logs
-        });
+  function getMailOptions(to, from, subject, text) {
+    return {
+      to: to,
+      from: from,
+      subject: subject,
+      text: text
+    };
   }
-
-function getMailOptions(to, from, subject, text) {
-  return  {
-          to: to,
-          from: from,
-          subject: subject,
-          text: text
-        };
-}
-
 
   // LOGOUT ==============================
   app.get('/logout', function(req, res) {
@@ -255,9 +248,15 @@ function getMailOptions(to, from, subject, text) {
         });
       },
       function(token, done) {
-        User.findOne({
-          'local.email': req.body.email
-        }, function(err, user) {
+        var criteria = {
+          $and: [{
+            "local.displayName": req.body.name.toLowerCase()
+          }, {
+            "local.email": req.body.email.toLowerCase()
+          }]
+        };
+        console.log(criteria);
+        User.findOne(criteria, function(err, user) {
           if (!user) {
             req.flash('error', 'No account with that email address exists.');
             return res.render('forgot.ejs', {
@@ -275,20 +274,26 @@ function getMailOptions(to, from, subject, text) {
         });
       },
       function(token, user, done) {
-        
-         var text = 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-             'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-             'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-             'If you did not request this, please ignore this email and your password will remain unchanged.\n';
-        
+
+        var text = 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+          'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+          'If you did not request this, please ignore this email and your password will remain unchanged.\n';
+
         var mailOptions = getMailOptions(user.local.email, 'passwordreset@stashy.io', 'Password Reset', text);
-        
-         getMailTransport().sendMail(mailOptions, function(err) {
-           res.render('index', {
-              user: req.user,
-              message: 'An e-mail has been sent to ' + user.local.email + ' with further instructions.'
-           });
-         });
+
+        mailgun.messages().send(mailOptions, function(error, body) {
+          //           res.render('index', {
+          //               user: req.user,
+          //               message: 'An e-mail has been sent to ' + user.local.email + ' with further instructions.'
+          //            });
+          req.session.sessionFlash = {
+            type: 'success',
+            message: 'An e-mail has been sent to ' + user.local.email + ' with further instructions.'
+          }
+          res.redirect("/"); //redirect vs render
+        });
+
       }
     ], function(err) {
       if (err) return next(err);
@@ -355,13 +360,13 @@ function getMailOptions(to, from, subject, text) {
       function(user, done) {
         var text = 'Hello,\n\nThis is a confirmation that the password for your account ' + user.local.email + ' has just been changed.\n';
         var mailOptions = getMailOptions(user.local.email, 'passwordreset@stashy.io', 'Your password has been changed', text);
-        
-         getMailTransport().sendMail(mailOptions, function(err) {
-           res.render('index', {
-              user: req.user,
-              message: 'Success! Your password has been changed.'
-           });
-         });
+
+        mailgun.messages().send(mailOptions, function(error, body) {
+          res.render('index', {
+            user: req.user,
+            message: 'An e-mail has been sent to ' + user.local.email + ' with further instructions.'
+          });
+        });
       }
     ], function(err) {
       res.redirect('/');
@@ -369,7 +374,47 @@ function getMailOptions(to, from, subject, text) {
   });
 
 
+  app.get('/change_password', function(req, res) {
+    res.render('change_password', {
+      user: req.user,
+      message: req.flash('changePasswordMessage')
+    });
+  });
+
+
+  app.post('/change_password', function(req, res) {
+    var user = req.user;
+
+    var password1 = req.body.password;
+    var password2 = req.body.password_confirm;
+
+    if (password1.length === 0 || password2.length === 0) {
+      req.flash('changePasswordMessage', 'Passwords cannot be blank');
+      res.render('change_password', {
+        user: req.user,
+      });
+    } else if (password1 === password2) {
+      user.local.password = user.generateHash(password1);
+
+      user.save(function(err) {
+        req.flash('changePasswordMessage', 'Password changed');
+        res.redirect('/profile');
+      });
+    } else {
+      req.flash('changePasswordMessage', 'Passwords do not match.');
+      res.render('change_password', {
+        user: req.user,
+      });
+    }
+
+  });
+
+
 };
+
+
+
+
 
 
 

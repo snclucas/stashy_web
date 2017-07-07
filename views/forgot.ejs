@@ -45,7 +45,11 @@
             <img id="profile-img" class="profile-img-card" src="img/logo-trans.png" />
             <p id="profile-name" class="profile-name-card"></p>
             <form action="/forgot" method="POST">
-                <span id="reauth-email" class="reauth-email"></span>
+                <% if (message.length > 0) { %>
+                  <div class="alert alert-danger">
+                    <%= message %>
+                  </div>
+                  <% } %>
                 <input type="text" name="name" placeholder="Name" required class="form-control input-lg" />
                 <input type="email" name="email" placeholder="Email" required class="form-control input-lg" />
                 <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Send</button>

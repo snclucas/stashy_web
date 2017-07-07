@@ -33,7 +33,9 @@
     "passport-twitter": "latest",
     "request": "latest",
     "validator": "latest",
-    "jsonwebtoken": "latest"
+    "jsonwebtoken": "latest",
+    "mailgun-js": "latest",
+    "express-flash": "0.0.2"
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha --reporter spec"

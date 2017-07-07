@@ -5,6 +5,7 @@ exports.getIndex = function(req, res) {
   if(req.isAuthenticated()) {
         authenticatedUser = req.user
   }
+  
   res.render('index.ejs', {
     is_logged_in: req.isAuthenticated(),
     user: authenticatedUser,

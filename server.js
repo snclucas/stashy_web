@@ -16,7 +16,7 @@ var passport = require('passport');
 var flash    = require('connect-flash');
 var path = require('path');
 var i18n = require("i18n");
-
+var flash = require('express-flash');
 var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
@@ -85,6 +85,14 @@ app.use(passport.initialize());
 
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
+
+// Custom flash middleware -- from Ethan Brown's book, 'Web Development with Node & Express'
+app.use(function(req, res, next){
+    // if there's a flash message in the session request, make it available in the response, then delete it
+    res.locals.sessionFlash = req.session.sessionFlash;
+    delete req.session.sessionFlash;
+    next();
+});
 
 // Check the mode of the site
 app.use(adminService.getSiteMode);
