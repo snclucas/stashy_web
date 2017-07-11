@@ -76,6 +76,8 @@ module.exports = function(passport) {
         passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
     },
     function(req, email, password, done) {
+      console.log("here");
+      
         if (email)
             email = email.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
 
@@ -86,7 +88,7 @@ module.exports = function(passport) {
           return done(null, false, req.flash('signupMessage', 'Invalid invitation token'));
       
         var criteria = {$or: [{"local.displayName": displayName}, {"local.email": email}]};
-      
+      console.log("here");
         // asynchronous
         process.nextTick(function() {
             // if the user is not already logged in:
@@ -103,9 +105,11 @@ module.exports = function(passport) {
 
                         // create the user
                         var newUser = new User();
-                        newUser.local.displayName = req.body.username;
+                        newUser.local.displayName = req.body.displayName;
                         newUser.local.email    = email;
                         newUser.local.password = newUser.generateHash(password);
+                      
+                      console.log("asdsadasdasd");
                       
                       var token = hat();
                       newUser.token = token;

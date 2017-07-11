@@ -1,7 +1,8 @@
-var jwt = require('jsonwebtoken');
+var hat = require('hat');
 var crypto = require('crypto');
 var User = require('../models/user');
 var config = require('../../config/app');
+var hat = require('hat');
 
 exports.getProfile = function(req, res) {
 	var authenticatedUser = req.user;
@@ -48,7 +49,7 @@ exports.addNewToken = function(req, res) {
 				}
 				var secretKey = config.token.secret;
 				console.log(secretKey);
-				var token = jwt.sign(claims, secretKey);
+				var token = hat();
 				user.tokens.push({
 					"name": slugify(tokenname),
 					"token": token

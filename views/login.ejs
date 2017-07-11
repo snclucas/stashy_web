@@ -41,9 +41,7 @@
     <!--==============Content Area=================-->
     <div class="container">
         <div class="card card-container">
-            <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
             <img id="profile-img" class="profile-img-card" src="img/logo-trans.png" />
-            <p id="profile-name" class="profile-name-card"></p>
             <form action="/login" method="POST">
                  <% if (message.length > 0) { %>
                   <div class="alert alert-danger">
@@ -62,6 +60,10 @@
             <a href="/forgot" class="forgot-password">
                 Forgot the password?
             </a>
+            <hr>
+            <p>
+              To register your interest in getting a Stashy account, please email <a href="mailto:invitation@stashy.io">invitation@stashy.io</a>.
+            </p>
         </div><!-- /card-container -->
     </div><!-- /container -->
 
