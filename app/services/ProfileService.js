@@ -4,7 +4,52 @@ var User = require('../models/user');
 var config = require('../../config/app');
 var hat = require('hat');
 
-exports.getProfile = function(req, res) {
+
+exports.verifyUserEmail = function(req, res) {
+	var verification_code = req.params.verification_code;
+	
+	User.findOne(
+		{
+			"local.verifyEmailToken": verification_code,
+			"local.hasVerifiedEmail": false
+		}, function(err, user){
+
+			if(!err && user != null) {
+				
+				user.local.hasVerifiedEmail = true;
+				user.local.verifyEmailToken = "";
+				
+				user.save(function(user_save){
+					req.login(user, function (err) {
+                if ( ! err ){
+									req.flash('success_messages', 'Email verified.');
+                  res.redirect('/profile');
+                } else {
+                  var error_messages = []
+									error_messages.push("Invalid or expired verification token.")
+									res.render('activate.ejs', {
+    							user: null,
+									error_messages: error_messages
+  								});
+                }
+            })
+				});
+				
+			}
+			else {
+				var error_messages = []
+				error_messages.push("Invalid or expired verification token.")
+				res.render('activate.ejs', {
+    			user: null,
+					error_messages: error_messages
+  			});
+			}
+		
+	});
+};
+
+
+exports.getUserProfile = function(req, res) {
 	var authenticatedUser = req.user;
 	var is_ajax_request = req.xhr;
 
@@ -14,8 +59,12 @@ exports.getProfile = function(req, res) {
 			redirect: '/profile'
 		});
 	} else {
+		var error_messages = []
+		if(authenticatedUser.local.hasVerifiedEmail === false)
+			error_messages.push("You need to verify your email address. Instructions are sent to your email address");
 		res.render('profile.ejs', {
-			user: authenticatedUser
+			user: authenticatedUser,
+			error_messages: error_messages
 		});
 	}
 };
@@ -23,11 +72,18 @@ exports.getProfile = function(req, res) {
 
 exports.addNewToken = function(req, res) {
 	var authenticatedUser = req.user;
-	var tokenname = req.body.tokenname;
+	var token_name = req.body.token_name;
+	if(token_name.length === 0) {
+		req.flash('error_messages', 'Invalid token name.');
+		res.redirect('/profile');
+		return;
+	}
 
-	User.findOne({
-			_id: authenticatedUser.id
-		})
+	var userFindCriteria = {
+		_id: authenticatedUser.id
+	};
+
+	User.findOne(userFindCriteria)
 		.exec(function(err_user, user) {
 
 			var tokens_allowed = user.allowedTokens;
@@ -38,37 +94,19 @@ exports.addNewToken = function(req, res) {
 			var tokens_left = tokens_allowed - tokens_created;
 
 			if (tokens_left > 0) {
-
-				var claims = {
-					sub: {
-						username: authenticatedUser.local.displayName,
-						email: authenticatedUser.local.email
-					},
-					issuer: 'https://stashy.io',
-					permissions: 'read-write'
-				}
 				var secretKey = config.token.secret;
-				console.log(secretKey);
 				var token = hat();
 				user.tokens.push({
-					"name": slugify(tokenname),
+					"name": slugify(token_name),
 					"token": token
 				});
 				user.save(function(err, user) {
-					res.json({
-						status: 'success',
-						token: token,
-						user: authenticatedUser,
-						redirect: '/profile'
-					})
+					req.flash('success_messages', 'Token added.');
+					res.redirect('/profile');
 				})
 			} else {
-				res.json({
-					status: 'fail',
-					token: '',
-					user: authenticatedUser,
-					redirect: '/upgrade'
-				})
+				req.flash('error_messages', 'You cannot add another token to your account.');
+				res.redirect('/profile');
 			}
 		});
 }
@@ -78,23 +116,29 @@ exports.deleteToken = function(req, res) {
 	var authenticatedUser = req.user;
 	var token_id = req.params.token_id;
 
-	User.find({
-			_id: authenticatedUser.id
-		})
+	var userFindCriteria = {
+		_id: authenticatedUser.id
+	};
+
+	User.find(userFindCriteria)
 		.exec(function(err_user, user) {
 
-			var user_tokens = user[0].tokens;
+			if (!err_user) {
+				var user_tokens = user[0].tokens;
 
-			user_tokens.forEach(function(token) {
-				if (token_id.localeCompare(token._id) === 0) {
-					var index = user_tokens.indexOf(token);
-					user_tokens.splice(index, 1)
-				}
-			})
-
-			user[0].save(function(err, user) {
+				user_tokens.forEach(function(token) {
+					if (token_id.localeCompare(token._id) === 0) {
+						var index = user_tokens.indexOf(token);
+						user_tokens.splice(index, 1)
+					}
+				})
+				user[0].save(function(err, user) {
+					res.redirect('/profile');
+				})
+			} else {
+				req.flash('error_messages', 'There was a problem deleting token.');
 				res.redirect('/profile');
-			})
+			}
 		});
 }
 
@@ -104,9 +148,11 @@ exports.addNewPublicEndpoint = function(req, res) {
 	var authenticatedUser = req.user;
 	var endpointname = req.body.endpointname;
 
-	User.findOne({
-			_id: authenticatedUser.id
-		})
+	var userFindCriteria = {
+		_id: authenticatedUser.id
+	};
+	
+	User.findOne(userFindCriteria)
 		.exec(function(err_user, user) {
 
 			var endpoints_allowed = user.allowedPublicEndpoints;
@@ -119,12 +165,12 @@ exports.addNewPublicEndpoint = function(req, res) {
 			if (endpoints_left > 0) {
 
 				var endpoint = crypto.randomBytes(6).toString('hex');
-				
+
 				user.publicEndpoints.push({
 					"name": slugify(endpointname),
 					"endpoint": endpoint
 				});
-				
+
 				user.save(function(err, user) {
 					res.json({
 						status: 'success',
@@ -149,9 +195,12 @@ exports.addNewPublicEndpoint = function(req, res) {
 exports.deletePublicEndpoint = function(req, res) {
 	var authenticatedUser = req.user;
 	var endpoint_id = req.params.endpoint_id;
-	User.findOne({
-			_id: authenticatedUser.id
-		})
+	
+	var userFindCriteria = {
+		_id: authenticatedUser.id
+	};
+	
+	User.findOne(userFindCriteria)
 		.exec(function(err_user, user) {
 			var user_endpoints = user.publicEndpoints;
 			user_endpoints.forEach(function(endpoint) {
@@ -172,18 +221,20 @@ exports.setDataPrivacy = function(req, res) {
 	var authenticatedUser = req.user;
 	var data_privacy = req.params.data_privacy;
 	
-	User.findOne({
-			_id: authenticatedUser.id
-		})
-		.exec(function(err_user, user) {
-		
-		 user.dataPrivacy = data_privacy.toLowerCase();
+	var userFindCriteria = {
+		_id: authenticatedUser.id
+	};
 
-		 user.save(function(err, user) {
+	User.findOne(userFindCriteria)
+		.exec(function(err_user, user) {
+
+			user.dataPrivacy = data_privacy.toLowerCase();
+
+			user.save(function(err, user) {
 				res.redirect('/profile');
 			})
 		});
-	
+
 }
 
 
@@ -191,19 +242,21 @@ exports.setAddDatestamp = function(req, res) {
 	var authenticatedUser = req.user;
 	var add_datestamp = req.params.add_datestamp;
 	
-	User.findOne({
-			_id: authenticatedUser.id
-		})
+	var userFindCriteria = {
+		_id: authenticatedUser.id
+	};
+
+	User.findOne(userFindCriteria)
 		.exec(function(err_user, user) {
 
-		console.log(add_datestamp.toLowerCase());
-		 user.addDatestampToPosts = add_datestamp.toLowerCase();
+			console.log(add_datestamp.toLowerCase());
+			user.addDatestampToPosts = add_datestamp.toLowerCase();
 
-		 user.save(function(err, user) {
+			user.save(function(err, user) {
 				res.redirect('/profile');
 			})
 		});
-	
+
 }
 
 

@@ -17,22 +17,24 @@ $(function() {
 })
 
 
-$(function() {
-  $("#add_token_form").submit(function(e) {
-    e.preventDefault();
-    $.ajax({
-      type: 'POST',
-      url: '/tokens/add',
-      dataType: "json",
-      data: $("#add_token_form").serialize(),
-      async: true,
-      success: function(data) {
-        console.log(data);
-        window.location.href = data.redirect;
-      }
-    });
-  })
-})
+// $(function() {
+//   $("#add_token_form").submit(function(e) {
+//     e.preventDefault();
+//     $.ajax({
+//       type: 'POST',
+//       url: '/tokens/add',
+//       dataType: "json",
+//       data: $("#add_token_form").serialize(),
+//       async: true,
+//       success: function(data) {
+//         console.log(data);
+//         //window.location.href = data.redirect;
+// 				$("#addNewTokenModel").modal("hide")
+// 				$("#alert_modal").modal();
+//       }
+//     });
+//   })
+// })
 
 
 

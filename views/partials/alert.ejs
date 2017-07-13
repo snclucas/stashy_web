@@ -1,0 +1,16 @@
+ <% if (success_messages) { %>
+	<% if (success_messages.length > 0) { %>
+		<div class="alert alert-success alert-dismissable">
+       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				<%= (success_messages[0]) %>	
+     </div>
+	<% } %>
+<% } %>
+ <% if (error_messages) { %>
+	<% if (error_messages.length > 0) { %>
+		<div class="alert alert-danger alert-dismissable">
+       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				<%= (error_messages[0]) %>	
+     </div>
+	<% } %>
+<% } %>

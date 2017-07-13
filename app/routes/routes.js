@@ -2,6 +2,7 @@ var nodemailer = require('nodemailer');
 var smtpTrans = require("nodemailer-smtp-transport")
 
 var indexService = require('../services/IndexService')
+
 var profileService = require('../services/ProfileService')
 
 module.exports = function(app) {
@@ -9,15 +10,10 @@ module.exports = function(app) {
 // show the home page (will also have our login links)
   app.get('/', indexService.getIndex);
   
-  app.get('/profile', isLoggedIn, profileService.getProfile);
+  app.get('/profile', isLoggedIn, profileService.getUserProfile);
   
-  
-  // show the home page (will also have our login links)
-  app.get('/dashboard', isLoggedIn, function(req, res) {
-    res.render('dashboard.ejs', {
-            user : req.user
-        });
-  });
+  //app.get('/verifyemail', profileService.verifyUserEmail);
+  app.get('/activate/:verification_code', profileService.verifyUserEmail);
 
   app.get('/terms', function(req, res) {
     res.render('terms.ejs', {user : req.user});

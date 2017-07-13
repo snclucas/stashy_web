@@ -77,6 +77,7 @@
 			<!--============== Status Page ==============-->
 			<div class="row PageHead">
 				<div class="col-md-12">
+					 <%- include ./partials/alert %>
 					<h1>Profile</h1>
 				</div>
 			</div>
@@ -103,7 +104,7 @@
 						<td>
 							<span class="pull-right text-success">
 		 Free /
-		 <a href="/upgrade">Upgrade</a>
+		 <a href="/plans">Upgrade</a>
 	 </span> <strong>Account type:</strong> </td>
 					</tr>
 					
@@ -229,6 +230,25 @@
 			
 		</div>
 		<!--Container End-->
+	
+	
+	<div class="modal fade"  id="alert_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+       <% if (success_messages) { %>
+					<%= (success_messages[0]) %>
+					<% } %>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+	
+	
 
 		<%- include ./partials/confirm_delete %>
 

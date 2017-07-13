@@ -1,4 +1,4 @@
-
+var hat = require('hat');
 // load the things we need
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
@@ -52,9 +52,11 @@ var userSchema = mongoose.Schema({
 });
 
 userSchema.post('save', function(doc) {
-  //var token = hat();
-  //doc.token = token;
-  //doc.save();
+//   if(doc.local.hasVerifiedEmail === false) {
+//     var verifyEmailToken = hat();
+//     doc.local.verifyEmailToken = verifyEmailToken;
+//     doc.save();
+//   }
 });
 
 

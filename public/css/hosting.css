@@ -544,7 +544,7 @@ address {
 .footer {
 	position: relative;
 	color: #fff;
-	background:url(../images/header-bg.jpg) no-repeat #232a31;
+	background:#232a31;
 	background-size:cover;
 	overflow:hidden;
 	margin-top:80px;
@@ -777,7 +777,6 @@ margin-bottom: -20px;
 	right:30px;
 	display:none;
 	text-indent:-9999px;
-	background: url('../images/icon_top.png') no-repeat;
 }
 /*==========16. VERSION 2==============*/
 

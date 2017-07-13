@@ -38,16 +38,20 @@ module.exports = function(app, passport) {
   // LOGIN ===============================
   // show the login form
   app.get('/login', function(req, res) {
-    if (req.isAuthenticated())
+    if (req.isAuthenticated()) {
       res.render('index.ejs', {
         user: req.user,
         message: req.flash('loginMessage')
       });
-    else
+      req.flash('success_messages', 'loginMessage');
+    }
+    else {
       res.render('login.ejs', {
         user: req.user,
         message: req.flash('loginMessage')
       });
+      req.flash('error_messages', 'loginMessage');
+    }
   });
 
   // process the login form
@@ -75,7 +79,7 @@ module.exports = function(app, passport) {
   // process the signup form
   app.post('/signup', passport.authenticate('local-signup', {
     successRedirect: '/profile', // redirect to the secure profile section
-    failureRedirect: '/', // redirect back to the index page if there is an error
+    failureRedirect: '/signup', // redirect back to the index page if there is an error
     failureFlash: true // allow flash messages
   }));
 

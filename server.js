@@ -12,6 +12,9 @@ app.use(helmet())
 
 var port     = process.env.SERVER_PORT;
 var mongoose = require('mongoose');
+// Use bluebird
+mongoose.Promise = require('bluebird');
+
 var passport = require('passport');
 var flash    = require('connect-flash');
 var path = require('path');
@@ -94,8 +97,15 @@ app.use(function(req, res, next){
     next();
 });
 
+app.use(function(req, res, next){
+    res.locals.success_messages = req.flash('success_messages');
+    res.locals.error_messages = req.flash('error_messages');
+    next();
+});
+
 // Check the mode of the site
 app.use(adminService.getSiteMode);
+
 
 
 
@@ -104,6 +114,25 @@ app.use(adminService.getSiteMode);
 require('./app/routes/routes.js')(app);
 require('./app/routes/loginroutes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 require('./app/routes/profileroutes.js')(app);
+
+app.use(function(req, res, next){
+  res.status(404);
+
+  // respond with html page
+  if (req.accepts('html')) {
+    res.render('404', { url: req.url });
+    return;
+  }
+
+  // respond with json
+  if (req.accepts('json')) {
+    res.send({ error: 'Not found' });
+    return;
+  }
+
+  // default to plain-text. send()
+  res.type('txt').send('Not found');
+});
 
 // launch ======================================================================
 app.listen(port);
