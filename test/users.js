@@ -2,17 +2,57 @@ var async = require('async');
 
 
 var should = require('should'),
-  //_ = require('lodash'),
+   assert = require('assert'),
   app = require('../server'),
   mongoose = require('mongoose'),
   User = mongoose.model('User'),
-  request = require('supertest');
+  request = require('request');
 
 var requestp = require("supertest");
 var agent1 = requestp.agent(app)
 
+var express = require('express');
+var app = express();
+var exports = module.exports = {};
+
 var user, user1;
 
+let server = require('../server');
+
+var base_url = "http://localhost:" + process.env.SERVER_PORT;
+
+
+describe("Hello World Server", function() {
+  describe("GET /", function() {
+    it("returns status code 200", function(done) {
+      request.get(base_url, function(error, response, body) {
+        assert.equal(200, response.statusCode);
+        done();
+      });
+    });
+   });
+     describe("GET /profiles", function() {
+    it("returns status code 200", function(done) {
+      request.get(base_url + "/profile", function(error, response, body) {
+        assert.equal(302, error);
+        done();
+      });
+    });
+
+//     it("returns Hello World", function(done) {
+//       request.get(base_url, function(error, response, body) {
+//         //expect(body).toBe("Hello World");
+//         assert.equal("Hello World", body);
+//         server.closeServer();
+//         done();
+//       });
+//     });
+  });
+});
+
+
+
+/*
 describe('GET /api/jobs', function() {
   beforeEach(function(done) {
     user = new User({
@@ -78,6 +118,8 @@ describe('GET /api/jobs', function() {
       });
   });
 });
+
+*/
 
 
 // beforeEach(function (done) {

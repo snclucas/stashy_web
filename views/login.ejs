@@ -32,20 +32,23 @@
     <!--===================FLEX SLIDER ENDS=======================-->
 
 </head>
-
 <body>
 
   <%- include ./partials/navbar %>
 
-
     <!--==============Content Area=================-->
     <div class="container">
         <div class="card card-container">
-            <img id="profile-img" class="profile-img-card" src="img/logo-trans.png" />
+          <h4>Login</h4>
+          <hr>
             <form action="/login" method="POST">
                 <%- include ./partials/alert %>
+              <div class="form-group">
                 <input type="text" id="email" name="email" class="form-control" placeholder="Email address or username" required autofocus>
+              </div>
+              <div class="form-group">
                 <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+              </div>
                 <div id="remember" class="checkbox">
                     <label>
                         <input type="checkbox" value="remember-me"> Remember me
@@ -64,7 +67,6 @@
     </div><!-- /container -->
 
     <%- include ./partials/footer %>
-
 
       <!--==============BOOTSTRAP JS=================-->
       <script src="js/bootstrap.min.js"></script>
